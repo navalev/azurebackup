@@ -1,2 +1,4 @@
-# azurebackup
-Powershell scripts for azure backup and snapshots
+# Azure Backup and snapshots
+
+This repository contains Powershell scripts for snapshot-like utility in Azure V2.
+

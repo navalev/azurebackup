@@ -1,23 +1,31 @@
+Add-AzureAccount
+Select-AzureSubscription 
+
+Switch-AzureMode AzureResourceManager
+
 ## Global
-$rgName = "testrg13"
-$location = "northeurope"
+$rgName = Read-Host -Prompt 'Enter Resource Group Name'
+$location = Read-Host -Prompt 'Enter data center location' #"northeurope"
 
 ## Storage
-$storageName = "teststore13"
-$storageType = "Standard_GRS"
+$storageName = Read-Host -Prompt 'Enter storage account name'
+$storageType = Read-Host -Prompt 'Enter storage type' #"Standard_GRS"
 
 ## Network
-$nicname = "testnic13"
+$nicname = Read-Host -Prompt 'Enter nic name'
 $subnet1Name = "subnet1"
-$vnetName = "testnet"
+$vnetName = Read-Host -Prompt 'Enter vnet name'
 $vnetAddressPrefix = "10.0.0.0/16"
 $vnetSubnetAddressPrefix = "10.0.0.0/24"
 
 ## Compute
-$vmName = "testvm13"
-$computerName = "testcomputer13"
-$vmSize = "Standard_A2"
+$vmName = Read-Host -Prompt 'Enter Virtual Machine name'
+$computerName = Read-Host -Prompt 'Enter computer name'
+$vmSize = Read-Host -Prompt 'Enter VM size' #"Standard_A2"
 $osDiskName = $vmName + "osDisk"
+
+## OS Disk
+$osDiskUri = Read-Host -Prompt 'Enter URL for VHD drive to attach'
 
 New-AzureResourceGroup -Name $rgName -Location $location
 
@@ -34,7 +42,6 @@ $vm = New-AzureVMConfig -VMName $vmName -VMSize $vmSize
 
 $vm = Add-AzureVMNetworkInterface -VM $vm -Id $nic.Id
 
-$osDiskUri = "https://snapshotsaccount.blob.core.windows.net/vhds/sampleVMbasic.vhd"
 $vm = Set-AzureVMOSDisk -VM $vm -Name $osDiskName -VhdUri $osDiskUri -CreateOption attach -Windows
 
 ## Create the VM in Azure
